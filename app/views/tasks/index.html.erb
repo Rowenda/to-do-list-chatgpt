@@ -1,0 +1,17 @@
+<h1>All my tasks</h1>
+
+<div style="display:flex; flex-direction:column;" data-controller="completed">
+  <% @tasks.each do |task| %>
+    <div>
+      <%= task.title %>
+      <button data-action="click->completed#toggle"
+              data-completed-target="button"
+              value="<%= task.id %>"><%= task.completed ? "Complete" : "Undo" %></button>
+    </div>
+  <% end %>
+</div>
+
+<%= simple_form_for @task do |f| %>
+  <%= f.input :title, label:"Add a new Task" %>
+  <%= f.button :submit %>
+<% end %>
