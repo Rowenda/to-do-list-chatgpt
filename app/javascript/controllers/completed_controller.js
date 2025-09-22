@@ -8,7 +8,19 @@ export default class extends Controller {
     console.log("You're connected")
   }
   toggle(event) {
-    console.log(event.target.value);
+    event.preventDefault()
 
+    const token = document.querySelector("meta[name=csrf-token]").content
+
+    fetch(`/tasks/${event.target.value}/toggle`, {
+      method: "PATCH",
+      headers: {
+        "Accept": "application/json",
+        "X-CSRF-Token": token }
+    })
+      .then(response => response.json())
+      .then((data) => {
+        data.completed ? event.target.innerText = "Complete" : event.target.innerText = "Undo"
+        })
   }
 }

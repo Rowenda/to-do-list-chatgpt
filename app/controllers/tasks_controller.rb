@@ -13,8 +13,12 @@ class TasksController < ApplicationController
 
   def toggle
     @task = Task.find(params[:id])
-    @task.completed ? @task.completed = false : @task.completed = true
-    @task.update
+    @task.update(completed: !@task.completed)
+
+    respond_to do |format|
+      format.json { render json: { id: @task.id, completed: @task.completed } }
+      format.html { redirect_to tasks_path }
+    end
   end
 
   private
